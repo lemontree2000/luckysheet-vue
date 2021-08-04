@@ -29,6 +29,8 @@
 
 <script>
 import LuckyExcel from 'luckyexcel'
+import cellData from './data'
+
 export default {
   name: 'HelloWorld',
   props: {
@@ -54,8 +56,8 @@ export default {
   mounted() {
     // In some cases, you need to use $nextTick
     // this.$nextTick(() => {
-          $(function () {
-            luckysheet.create({
+          window.$(function () {
+            window.luckysheet.create({
               container: 'luckysheet', // 设定DOM容器的id
               title: 'Luckysheet Demo', // 设定表格名称
               lang: 'zh', // 设定表格语言
@@ -72,7 +74,7 @@ export default {
                         "column": 18, //列数
                         "defaultRowHeight": 19, //自定义行高
                         "defaultColWidth": 73, //自定义列宽
-                        "celldata": [], //初始化使用的单元格数据
+                        "celldata": cellData, //初始化使用的单元格数据
                         "config": {
                             "merge":{}, //合并单元格
                             "rowlen":{}, //表格行高
