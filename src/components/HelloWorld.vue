@@ -17,11 +17,11 @@
         <a href="javascript:void(0)" @click="downloadExcel">Download source xlsx file</a>
     </div> -->
     <div class="sheet-header">
-      <span>返回</span>
-      <span>商品数据批量编辑</span>
+      <span class="back">返回</span>
+      <span class="title">商品数据批量编辑</span>
       <div class="">
-        <button class="cancel">取消</button>
-        <button>保存</button>
+        <button class="cancel" @click="handleCancel">取消</button>
+        <button @click="handleSave">保存</button>
       </div>
     </div>
     <div
@@ -62,6 +62,7 @@
 <script>
 import LuckyExcel from "luckyexcel";
 import cellData from "./data";
+import originData from './originData'
 
 export default {
   name: "HelloWorld",
@@ -281,6 +282,12 @@ export default {
         }
       );
     },
+    handleSave() {
+      alert("提交到后端保存");
+    },
+    handleCancel() {
+      alert("取消编辑");
+    },
     downloadExcel() {
       const value = this.selected;
 
@@ -337,7 +344,14 @@ button {
 
 .cancel {
   color: #333;
-  margin-right: 10px;;
+  margin-right: 10px;
   background: #fff;
+}
+.title {
+  font-size: 18px;
+  font-weight: 700;
+}
+.back {
+  cursor: pointer;
 }
 </style>
