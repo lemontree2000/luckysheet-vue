@@ -4560,7 +4560,7 @@ lru-cache@^5.1.1:
   dependencies:
     yallist "^3.0.2"
 
-luckyexcel@^1.0.0:
+luckyexcel@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npm.taobao.org/luckyexcel/download/luckyexcel-1.0.1.tgz#55791f28bb5393e9dff8ba77c11f9c05f9ceb5ae"
   dependencies:

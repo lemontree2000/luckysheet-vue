@@ -120,8 +120,8 @@ export default {
   mounted() {
     // In some cases, you need to use $nextTick
     // this.$nextTick(() => {
-    const cellData = this.initData()
-    console.log("cellData>>>", cellData)
+    const cellData = this.initData();
+    console.log("cellData>>>", cellData);
     window.$(function () {
       window.luckysheet.create({
         container: "luckysheet", // 设定DOM容器的id
@@ -156,40 +156,40 @@ export default {
               rowhidden: {}, //隐藏行
               colhidden: {}, //隐藏列
               borderInfo: {}, //边框
-              // authority: {
-                //限制不可编辑
-                // password: "",
-                // algorithmName: "None",
-                // saltValue: null,
-                // hintText: "",
-                // sheet: 1,
-                // selectLockedCells: 1,
-                // selectunLockedCells: 1,
-                // formatCells: 0,
-                // formatColumns: 0,
-                // formatRows: 0,
-                // insertColumns: 0,
-                // insertRows: 0,
-                // insertHyperlinks: 0,
-                // deleteColumns: 0,
-                // deleteRows: 0,
-                // sort: 0,
-                // filter: 0,
-                // usePivotTablereports: 0,
-                // editObjects: 0,
-                // editScenarios: 0,
-                // allowRangeList: [
-                //   {
-                //     name: "Default0",
-                //     password: "",
-                //     hintText: "",
-                //     algorithmName: "None",
-                //     saltValue: null,
-                //     checkRangePasswordUrl: null,
-                //     sqref: "$A$2:$H$7",
-                //   },
-                // ],
-              // }, //工作表保护
+              authority: {
+                // 限制不可编辑
+                password: "",
+                algorithmName: "None",
+                saltValue: null,
+                hintText: "",
+                sheet: 1,
+                selectLockedCells: 1,
+                selectunLockedCells: 1,
+                formatCells: 0,
+                formatColumns: 0,
+                formatRows: 0,
+                insertColumns: 0,
+                insertRows: 0,
+                insertHyperlinks: 0,
+                deleteColumns: 0,
+                deleteRows: 0,
+                sort: 0,
+                filter: 0,
+                usePivotTablereports: 0,
+                editObjects: 0,
+                editScenarios: 0,
+                allowRangeList: [
+                  {
+                    name: "Default0",
+                    password: "",
+                    hintText: "",
+                    algorithmName: "None",
+                    saltValue: null,
+                    checkRangePasswordUrl: null,
+                    sqref: "$A$2:$U$21",
+                  },
+                ],
+              }, //工作表保护
             },
             scrollLeft: 0, //左右滚动条位置
             scrollTop: 0, //上下滚动条位置
@@ -308,15 +308,12 @@ export default {
       elemIF.src = value;
     },
     initData() {
-      console.log("originData>>>", originData)
-      const headKeys = genSheetKeyMap(originData[0])
-      const headRows = genSheetHead(headKeys) 
-      const valueRows = genSheetRows(originData, headKeys)
-      return [
-        ...headRows,
-        ...valueRows
-      ]
-    }
+      console.log("originData>>>", originData);
+      const headKeys = genSheetKeyMap(originData[0]);
+      const headRows = genSheetHead(headKeys);
+      const valueRows = genSheetRows(originData, headKeys);
+      return [...headRows, ...valueRows];
+    },
   },
 };
 </script>
