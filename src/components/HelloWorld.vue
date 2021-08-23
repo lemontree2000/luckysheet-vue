@@ -1,8 +1,6 @@
 <template>
   <div class="hello">
-    <!-- <div style="position: absolute;top:0;">
-        
-        
+    <div >
         <input style="font-size:16px;" type="file" @change="uploadExcel" />
 
         <span>Or Load remote xlsx file: </span>
@@ -15,7 +13,7 @@
         </select>
 
         <a href="javascript:void(0)" @click="downloadExcel">Download source xlsx file</a>
-    </div> -->
+    </div>
     <div class="sheet-header">
       <span class="back">返回</span>
       <span class="title">商品数据批量编辑</span>
@@ -32,7 +30,7 @@
         position: absolute;
         width: 100%;
         left: 0px;
-        top: 45px;
+        top: 72px;
         bottom: 0px;
       "
     ></div>
@@ -120,8 +118,8 @@ export default {
   mounted() {
     // In some cases, you need to use $nextTick
     // this.$nextTick(() => {
-    const cellData = this.initData();
-    console.log("cellData>>>", cellData);
+    const cellData = this.initData()
+    console.log("cellData>>>", cellData)
     window.$(function () {
       window.luckysheet.create({
         container: "luckysheet", // 设定DOM容器的id
@@ -240,7 +238,6 @@ export default {
             return;
           }
           window.luckysheet.destroy();
-
           window.luckysheet.create({
             container: "luckysheet", //luckysheet is the container id
             showinfobar: false,
@@ -308,12 +305,15 @@ export default {
       elemIF.src = value;
     },
     initData() {
-      console.log("originData>>>", originData);
-      const headKeys = genSheetKeyMap(originData[0]);
-      const headRows = genSheetHead(headKeys);
-      const valueRows = genSheetRows(originData, headKeys);
-      return [...headRows, ...valueRows];
-    },
+      console.log("originData>>>", originData)
+      const headKeys = genSheetKeyMap(originData[0])
+      const headRows = genSheetHead(headKeys) 
+      const valueRows = genSheetRows(originData, headKeys)
+      return [
+        ...headRows,
+        ...valueRows
+      ]
+    }
   },
 };
 </script>
