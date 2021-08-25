@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <div >
+    <!-- <div >
         <input style="font-size:16px;" type="file" @change="uploadExcel" />
 
         <span>Or Load remote xlsx file: </span>
@@ -13,13 +13,13 @@
         </select>
 
         <a href="javascript:void(0)" @click="downloadExcel">Download source xlsx file</a>
-    </div>
+    </div> -->
     <div class="sheet-header">
       <span class="back">返回</span>
       <span class="title">商品数据批量编辑</span>
       <div class="">
-        <button class="cancel" @click="handleCancel">取消</button>
-        <button @click="handleSave">保存</button>
+        <!-- <button class="cancel" @click="handleCancel">取消</button> -->
+        <button @click="handleSave">配置显示的字段</button>
       </div>
     </div>
     <div
@@ -30,7 +30,7 @@
         position: absolute;
         width: 100%;
         left: 0px;
-        top: 72px;
+        top: 45px;
         bottom: 0px;
       "
     ></div>
@@ -54,6 +54,28 @@
     >
       Downloading
     </div>
+    <el-dialog :visible="dialogVisible" title="配置显示的字段">
+      <el-checkbox
+        :indeterminate="isIndeterminate"
+        v-model="checkAll"
+        @change="handleCheckAllChange"
+        >全选</el-checkbox
+      >
+      <div style="margin: 15px 0"></div>
+      <el-checkbox-group
+        v-model="checkedCities"
+        @change="handleCheckedCitiesChange"
+      >
+        <el-checkbox v-for="(city, key) in headKeys" :label="key" :key="key">{{
+          key
+        }}</el-checkbox>
+      </el-checkbox-group>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="handleTableVisible"
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -62,6 +84,7 @@ import LuckyExcel from "luckyexcel";
 // import cellData from "./data";
 import originData from "./originData";
 import { genSheetKeyMap, genSheetHead, genSheetRows } from "./utils";
+
 export default {
   name: "HelloWorld",
   props: {
@@ -112,14 +135,19 @@ export default {
             "https://minio.cnbabylon.com/public/luckysheet/Blue%20mileage%20and%20expense%20report.xlsx",
         },
       ],
+      headKeys: {},
+      dialogVisible: false,
       isMaskShow: false,
+      checkAll: false,
+      checkedCities: [],
+      isIndeterminate: true,
     };
   },
   mounted() {
     // In some cases, you need to use $nextTick
     // this.$nextTick(() => {
-    const cellData = this.initData()
-    console.log("cellData>>>", cellData)
+    const cellData = this.initData();
+    console.log("cellData>>>", cellData);
     window.$(function () {
       window.luckysheet.create({
         container: "luckysheet", // 设定DOM容器的id
@@ -282,7 +310,7 @@ export default {
       );
     },
     handleSave() {
-      alert("提交到后端保存");
+      this.dialogVisible = true;
     },
     handleCancel() {
       alert("取消编辑");
@@ -305,15 +333,25 @@ export default {
       elemIF.src = value;
     },
     initData() {
-      console.log("originData>>>", originData)
-      const headKeys = genSheetKeyMap(originData[0])
-      const headRows = genSheetHead(headKeys) 
-      const valueRows = genSheetRows(originData, headKeys)
-      return [
-        ...headRows,
-        ...valueRows
-      ]
-    }
+      console.log("originData>>>", originData);
+      this.headKeys = genSheetKeyMap(originData[0]);
+      const headRows = genSheetHead(this.headKeys);
+      const valueRows = genSheetRows(originData, this.headKeys);
+      this.checkedCities = Object.keys(this.headKeys) 
+      this.isIndeterminate = false
+      this.checkAll = true
+      return [...headRows, ...valueRows];
+    },
+    handleCheckAllChange(val) {
+      this.checkedCities = val ? Object.keys(this.headKeys) : [];
+      this.isIndeterminate = false;
+    },
+    handleCheckedCitiesChange(value) {
+      let checkedCount = value.length;
+      this.checkAll = checkedCount === Object.keys(this.headKeys).length;
+      this.isIndeterminate =
+        checkedCount > 0 && checkedCount < Object.keys(this.headKeys).length;
+    },
   },
 };
 </script>
@@ -349,6 +387,12 @@ button {
   border: 1px solid slateblue;
   color: #fff;
   cursor: pointer;
+  border-radius: 0;
+
+}
+button:hover {
+  background: #412dbd;
+  border-color: #412dbd;
 }
 
 .cancel {
