@@ -54,7 +54,11 @@
     >
       Downloading
     </div>
-    <el-dialog :visible="dialogVisible" title="配置显示的字段">
+    <el-dialog
+      :visible="dialogVisible"
+      title="配置显示的字段"
+      @close="dialogVisible = false"
+    >
       <el-checkbox
         :indeterminate="isIndeterminate"
         v-model="checkAll"
@@ -71,9 +75,7 @@
         }}</el-checkbox>
       </el-checkbox-group>
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handleTableVisible"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="handleTableVisible">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -147,7 +149,6 @@ export default {
     // In some cases, you need to use $nextTick
     // this.$nextTick(() => {
     const cellData = this.initData();
-    console.log("cellData>>>", cellData);
     window.$(function () {
       window.luckysheet.create({
         container: "luckysheet", // 设定DOM容器的id
@@ -333,18 +334,25 @@ export default {
       elemIF.src = value;
     },
     initData() {
-      console.log("originData>>>", originData);
       this.headKeys = genSheetKeyMap(originData[0]);
       const headRows = genSheetHead(this.headKeys);
       const valueRows = genSheetRows(originData, this.headKeys);
-      this.checkedCities = Object.keys(this.headKeys) 
-      this.isIndeterminate = false
-      this.checkAll = true
+      this.checkedCities = Object.keys(this.headKeys);
+      this.isIndeterminate = false;
+      this.checkAll = true;
       return [...headRows, ...valueRows];
     },
     handleCheckAllChange(val) {
       this.checkedCities = val ? Object.keys(this.headKeys) : [];
       this.isIndeterminate = false;
+    },
+    handleTableVisible() {
+      Object.keys(this.headKeys).forEach((v, i) => {
+        window.luckysheet.hideColumn(i, i);
+      });
+      this.checkedCities.forEach((v) => {
+        window.luckysheet.showColumn(this.headKeys[v], this.headKeys[v]);
+      });
     },
     handleCheckedCitiesChange(value) {
       let checkedCount = value.length;
@@ -388,7 +396,6 @@ button {
   color: #fff;
   cursor: pointer;
   border-radius: 0;
-
 }
 button:hover {
   background: #412dbd;
